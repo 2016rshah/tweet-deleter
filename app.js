@@ -11,6 +11,8 @@ client.get('statuses/user_timeline', {count:200}, function(error, params, respon
     deleteLessThan(params, 3, 7)
     //deleteRetweets(params)
 });
+
+
 function deleteLessThan(params, rts, favs){
 	var tweetsDeleted = 0
 	for(var i = 0; i<params.length; i++)
@@ -24,8 +26,8 @@ function deleteLessThan(params, rts, favs){
 		}
 	}
 	console.log("TOTAL NUMBER OF TWEETS DELETED: ", tweetsDeleted)
-	console.log("TOTAL NUMBER OF TWEETS SAVED: ", 200-tweetsDeleted)
-	console.log("TOTAL NUMBER OF TWEETS ANALYZED: ", 200)
+	console.log("TOTAL NUMBER OF TWEETS SAVED: ", params.length-tweetsDeleted)
+	console.log("TOTAL NUMBER OF TWEETS ANALYZED: ", params.length)
 }
 function deleteRetweets(params){
 	var tweetsDeleted = 0
@@ -35,10 +37,17 @@ function deleteRetweets(params){
 			deleteTweet(params[i].id_str)
 			tweetsDeleted++
 		}
+		else if(params[i].text[0] == "R" && params[i].text[1] == "T"){ //I think twitter used to handle retweets differently so this is a special case for those tweets. 
+			deleteTweet(params[i].id_str)
+			tweetsDeleted++
+		}
+		else{
+			console.log(params[i].text)
+		}
 	}
 	console.log("TOTAL NUMBER OF TWEETS DELETED: ", tweetsDeleted)
-	console.log("TOTAL NUMBER OF TWEETS SAVED: ", 200-tweetsDeleted)
-	console.log("TOTAL NUMBER OF TWEETS ANALYZED: ", 200)
+	console.log("TOTAL NUMBER OF TWEETS SAVED: ", params.length-tweetsDeleted)
+	console.log("TOTAL NUMBER OF TWEETS ANALYZED: ", params.length)
 }
 function deleteTweet(tweetID){
 	tweetID = tweetID.toString()
