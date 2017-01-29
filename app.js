@@ -8,8 +8,8 @@ var client = new Twit({
 })
 
 client.get('statuses/user_timeline', {count:200}, function(error, params, response){
-    deleteLessThan(params, 3, 7)
-    //deleteRetweets(params)
+    deleteLessThan(params, 1, 6)
+    deleteRetweets(params)
 });
 
 
